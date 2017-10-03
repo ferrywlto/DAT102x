@@ -1,0 +1,1601 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" type="application/javascript"></script>
+<h1 id="problem-description">Problem Description</h1>
+<!-- TOC START min:1 max:3 link:true update:true -->
+<ul class="incremental">
+<li><a href="#about-the-data">About the data</a></li>
+<li><a href="#target-variable">Target Variable</a>
+<ul class="incremental">
+<li><a href="#submission-format">Submission Format</a></li>
+<li><a href="#performance-metric">Performance Metric</a></li>
+</ul></li>
+<li><a href="#features">Features</a>
+<ul class="incremental">
+<li><a href="#categories">Categories</a></li>
+<li><a href="#example-row">Example Row</a> <!-- TOC END --></li>
+</ul></li>
+</ul>
+<p><a id="about-the-data"></a></p>
+<h2 id="about-the-data">About the data</h2>
+<p>Your goal is to predict a student's earnings a set number of years after they have enrolled in United States institutions of higher education. The data is compiled from a wide range of sources and <a href="https://collegescorecard.ed.gov/">made publicly available by the United States Department of education</a>.</p>
+<p><a id="target-variable"></a></p>
+<h2 id="target-variable">Target Variable</h2>
+<p>We're trying to predict the variable <code>income</code>, which represents earnings <strong>in thousands of US dollars</strong> a set interval from when the student first enrolled.</p>
+<p><a id="submission-format"></a></p>
+<h3 id="submission-format">Submission Format</h3>
+<p>The format for the submission file is two columns with the <code>row_id</code> and the <code>income</code>. The data type of <code>income</code> is a float, <strong>so make sure there is a decimal point in your submission</strong>. For example <code>0.0</code> is a valid float. <code>0</code> is <em>not</em>.</p>
+<div class="well">
+
+<p>For example, if you predicted...</p>
+<table>
+<thead>
+<tr class="header">
+<th>row_id</th>
+<th>income</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+<p>The first few lines of the <code>.csv</code> file that you submit would look like:</p>
+<pre><code>row_id,income
+2,0.0
+8,0.0
+9,0.0
+10,0.0
+11,0.0</code></pre>
+<p><a id="performance-metric"></a></p>
+<h3 id="performance-metric">Performance Metric</h3>
+<p>We're predicting a numeric quantity, so this is a regression problem. To measure regression, we'll use a metric called Root-mean-squared error. It is an error metric, so lower value is better (as opposed to an accuracy metric, where a higher value is better).</p>
+<p><br /><span class="math display">$$RMSE = \sqrt{\frac{1}{N}\sum_{n=1}^{N} (\hat{y}_n - y_n)^2  }$$</span><br /></p>
+<p>Where <span class="math inline">$\hat{y}_n$</span> is the predicted earnings and <span class="math inline"><em>y</em><sub><em>n</em></sub></span> is the actual earnings. The best possible score is 0, but the worst possible score can be infinite.</p>
+<p><a id="features"></a></p>
+<h2 id="features">Features</h2>
+<p>There are 297 variables in this dataset. Each row in the dataset represents a United States institution of higher education in a specific year. The dataset we are working with covers four particular years, denoted <code>year_a</code>, <code>year_f</code>, <code>year_w</code>, and <code>year_z</code> in our dataset. An institution may have a row for all, some, or just for one of the years. We don't provide a unique identifier for an individual institution, just a <code>row_id</code> for each row.</p>
+<p>The variables in the dataset have names that of the form <code>category__variable</code>, where <code>category</code> is the high level category of the variable (e.g. <code>academics</code> or <code>students</code>). <code>variable</code> is what the specific column contains.</p>
+<p><a id="categories"></a></p>
+<h3 id="categories">Categories</h3>
+<ul class="incremental">
+<li><p><strong><code>academics</code></strong></p>
+<ul class="incremental">
+<li><code>program_assoc_agriculture</code>: Associate degree in Agriculture, Agriculture Operations, And Related Sciences.</li>
+<li><code>program_assoc_architecture</code>: Associate degree in Architecture And Related Services.</li>
+<li><code>program_assoc_biological</code>: Associate degree in Biological And Biomedical Sciences.</li>
+<li><code>program_assoc_business_marketing</code>: Associate degree in Business, Management, Marketing, And Related Support Services.</li>
+<li><code>program_assoc_communication</code>: Associate degree in Communication, Journalism, And Related Programs.</li>
+<li><code>program_assoc_communications_technology</code>: Associate degree in Communications Technologies/Technicians And Support Services.</li>
+<li><code>program_assoc_computer</code>: Associate degree in Computer And Information Sciences And Support Services.</li>
+<li><code>program_assoc_construction</code>: Associate degree in Construction Trades.</li>
+<li><code>program_assoc_education</code>: Associate degree in Education.</li>
+<li><code>program_assoc_engineering</code>: Associate degree in Engineering.</li>
+<li><code>program_assoc_engineering_technology</code>: Associate degree in Engineering Technologies And Engineering-Related Fields.</li>
+<li><code>program_assoc_english</code>: Associate degree in English Language And Literature/Letters.</li>
+<li><code>program_assoc_ethnic_cultural_gender</code>: Associate degree in Area, Ethnic, Cultural, Gender, And Group Studies.</li>
+<li><code>program_assoc_family_consumer_science</code>: Associate degree in Family And Consumer Sciences/Human Sciences.</li>
+<li><code>program_assoc_health</code>: Associate degree in Health Professions And Related Programs.</li>
+<li><code>program_assoc_history</code>: Associate degree in History.</li>
+<li><code>program_assoc_humanities</code>: Associate degree in Liberal Arts And Sciences, General Studies And Humanities.</li>
+<li><code>program_assoc_language</code>: Associate degree in Foreign Languages, Literatures, And Linguistics.</li>
+<li><code>program_assoc_legal</code>: Associate degree in Legal Professions And Studies.</li>
+<li><code>program_assoc_library</code>: Associate degree in Library Science.</li>
+<li><code>program_assoc_mathematics</code>: Associate degree in Mathematics And Statistics.</li>
+<li><code>program_assoc_mechanic_repair_technology</code>: Associate degree in Mechanic And Repair Technologies/Technicians.</li>
+<li><code>program_assoc_military</code>: Associate degree in Military Technologies And Applied Sciences.</li>
+<li><code>program_assoc_multidiscipline</code>: Associate degree in Multi/Interdisciplinary Studies.</li>
+<li><code>program_assoc_parks_recreation_fitness</code>: Associate degree in Parks, Recreation, Leisure, And Fitness Studies.</li>
+<li><code>program_assoc_personal_culinary</code>: Associate degree in Personal And Culinary Services.</li>
+<li><code>program_assoc_philosophy_religious</code>: Associate degree in Philosophy And Religious Studies.</li>
+<li><code>program_assoc_physical_science</code>: Associate degree in Physical Sciences.</li>
+<li><code>program_assoc_precision_production</code>: Associate degree in Precision Production.</li>
+<li><code>program_assoc_psychology</code>: Associate degree in Psychology.</li>
+<li><code>program_assoc_public_administration_social_service</code>: Associate degree in Public Administration And Social Service Professions.</li>
+<li><code>program_assoc_resources</code>: Associate degree in Natural Resources And Conservation.</li>
+<li><code>program_assoc_science_technology</code>: Associate degree in Science Technologies/Technicians.</li>
+<li><code>program_assoc_security_law_enforcement</code>: Associate degree in Homeland Security, Law Enforcement, Firefighting And Related Protective Services.</li>
+<li><code>program_assoc_social_science</code>: Associate degree in Social Sciences.</li>
+<li><code>program_assoc_theology_religious_vocation</code>: Associate degree in Theology And Religious Vocations.</li>
+<li><code>program_assoc_transportation</code>: Associate degree in Transportation And Materials Moving.</li>
+<li><code>program_assoc_visual_performing</code>: Associate degree in Visual And Performing Arts.</li>
+<li><code>program_bachelors_agriculture</code>: Bachelor's degree in Agriculture, Agriculture Operations, And Related Sciences.</li>
+<li><code>program_bachelors_architecture</code>: Bachelor's degree in Architecture And Related Services.</li>
+<li><code>program_bachelors_biological</code>: Bachelor's degree in Biological And Biomedical Sciences.</li>
+<li><code>program_bachelors_business_marketing</code>: Bachelor's degree in Business, Management, Marketing, And Related Support Services.</li>
+<li><code>program_bachelors_communication</code>: Bachelor's degree in Communication, Journalism, And Related Programs.</li>
+<li><code>program_bachelors_communications_technology</code>: Bachelor's degree in Communications Technologies/Technicians And Support Services.</li>
+<li><code>program_bachelors_computer</code>: Bachelor's degree in Computer And Information Sciences And Support Services.</li>
+<li><code>program_bachelors_construction</code>: Bachelor's degree in Construction Trades.</li>
+<li><code>program_bachelors_education</code>: Bachelor's degree in Education.</li>
+<li><code>program_bachelors_engineering</code>: Bachelor's degree in Engineering.</li>
+<li><code>program_bachelors_engineering_technology</code>: Bachelor's degree in Engineering Technologies And Engineering-Related Fields.</li>
+<li><code>program_bachelors_english</code>: Bachelor's degree in English Language And Literature/Letters.</li>
+<li><code>program_bachelors_ethnic_cultural_gender</code>: Bachelor's degree in Area, Ethnic, Cultural, Gender, And Group Studies.</li>
+<li><code>program_bachelors_family_consumer_science</code>: Bachelor's degree in Family And Consumer Sciences/Human Sciences.</li>
+<li><code>program_bachelors_health</code>: Bachelor's degree in Health Professions And Related Programs.</li>
+<li><code>program_bachelors_history</code>: Bachelor's degree in History.</li>
+<li><code>program_bachelors_humanities</code>: Bachelor's degree in Liberal Arts And Sciences, General Studies And Humanities.</li>
+<li><code>program_bachelors_language</code>: Bachelor's degree in Foreign Languages, Literatures, And Linguistics.</li>
+<li><code>program_bachelors_legal</code>: Bachelor's degree in Legal Professions And Studies.</li>
+<li><code>program_bachelors_library</code>: Bachelor's degree in Library Science.</li>
+<li><code>program_bachelors_mathematics</code>: Bachelor's degree in Mathematics And Statistics.</li>
+<li><code>program_bachelors_mechanic_repair_technology</code>: Bachelor's degree in Mechanic And Repair Technologies/Technicians.</li>
+<li><code>program_bachelors_military</code>: Bachelor's degree in Military Technologies And Applied Sciences.</li>
+<li><code>program_bachelors_multidiscipline</code>: Bachelor's degree in Multi/Interdisciplinary Studies.</li>
+<li><code>program_bachelors_parks_recreation_fitness</code>: Bachelor's degree in Parks, Recreation, Leisure, And Fitness Studies.</li>
+<li><code>program_bachelors_personal_culinary</code>: Bachelor's degree in Personal And Culinary Services.</li>
+<li><code>program_bachelors_philosophy_religious</code>: Bachelor's degree in Philosophy And Religious Studies.</li>
+<li><code>program_bachelors_physical_science</code>: Bachelor's degree in Physical Sciences.</li>
+<li><code>program_bachelors_precision_production</code>: Bachelor's degree in Precision Production.</li>
+<li><code>program_bachelors_psychology</code>: Bachelor's degree in Psychology.</li>
+<li><code>program_bachelors_public_administration_social_service</code>: Bachelor's degree in Public Administration And Social Service Professions.</li>
+<li><code>program_bachelors_resources</code>: Bachelor's degree in Natural Resources And Conservation.</li>
+<li><code>program_bachelors_science_technology</code>: Bachelor's degree in Science Technologies/Technicians.</li>
+<li><code>program_bachelors_security_law_enforcement</code>: Bachelor's degree in Homeland Security, Law Enforcement, Firefighting And Related Protective Services.</li>
+<li><code>program_bachelors_social_science</code>: Bachelor's degree in Social Sciences.</li>
+<li><code>program_bachelors_theology_religious_vocation</code>: Bachelor's degree in Theology And Religious Vocations.</li>
+<li><code>program_bachelors_transportation</code>: Bachelor's degree in Transportation And Materials Moving.</li>
+<li><code>program_bachelors_visual_performing</code>: Bachelor's degree in Visual And Performing Arts.</li>
+<li><code>program_certificate_lt_1_yr_agriculture</code>: Certificate of less than one academic year in Agriculture, Agriculture Operations, And Related Sciences.</li>
+<li><code>program_certificate_lt_1_yr_architecture</code>: Certificate of less than one academic year in Architecture And Related Services.</li>
+<li><code>program_certificate_lt_1_yr_biological</code>: Certificate of less than one academic year in Biological And Biomedical Sciences.</li>
+<li><code>program_certificate_lt_1_yr_business_marketing</code>: Certificate of less than one academic year in Business, Management, Marketing, And Related Support Services.</li>
+<li><code>program_certificate_lt_1_yr_communication</code>: Certificate of less than one academic year in Communication, Journalism, And Related Programs.</li>
+<li><code>program_certificate_lt_1_yr_communications_technology</code>: Certificate of less than one academic year in Communications Technologies/Technicians And Support Services.</li>
+<li><code>program_certificate_lt_1_yr_computer</code>: Certificate of less than one academic year in Computer And Information Sciences And Support Services.</li>
+<li><code>program_certificate_lt_1_yr_construction</code>: Certificate of less than one academic year in Construction Trades.</li>
+<li><code>program_certificate_lt_1_yr_education</code>: Certificate of less than one academic year in Education.</li>
+<li><code>program_certificate_lt_1_yr_engineering</code>: Certificate of less than one academic year in Engineering.</li>
+<li><code>program_certificate_lt_1_yr_engineering_technology</code>: Certificate of less than one academic year in Engineering Technologies And Engineering-Related Fields.</li>
+<li><code>program_certificate_lt_1_yr_english</code>: Certificate of less than one academic year in English Language And Literature/Letters.</li>
+<li><code>program_certificate_lt_1_yr_ethnic_cultural_gender</code>: Certificate of less than one academic year in Area, Ethnic, Cultural, Gender, And Group Studies.</li>
+<li><code>program_certificate_lt_1_yr_family_consumer_science</code>: Certificate of less than one academic year in Family And Consumer Sciences/Human Sciences.</li>
+<li><code>program_certificate_lt_1_yr_health</code>: Certificate of less than one academic year in Health Professions And Related Programs.</li>
+<li><code>program_certificate_lt_1_yr_history</code>: Certificate of less than one academic year in History.</li>
+<li><code>program_certificate_lt_1_yr_humanities</code>: Certificate of less than one academic year in Liberal Arts And Sciences, General Studies And Humanities.</li>
+<li><code>program_certificate_lt_1_yr_language</code>: Certificate of less than one academic year in Foreign Languages, Literatures, And Linguistics.</li>
+<li><code>program_certificate_lt_1_yr_legal</code>: Certificate of less than one academic year in Legal Professions And Studies.</li>
+<li><code>program_certificate_lt_1_yr_library</code>: Certificate of less than one academic year in Library Science.</li>
+<li><code>program_certificate_lt_1_yr_mathematics</code>: Certificate of less than one academic year in Mathematics And Statistics.</li>
+<li><code>program_certificate_lt_1_yr_mechanic_repair_technology</code>: Certificate of less than one academic year in Mechanic And Repair Technologies/Technicians.</li>
+<li><code>program_certificate_lt_1_yr_military</code>: Certificate of less than one academic year in Military Technologies And Applied Sciences.</li>
+<li><code>program_certificate_lt_1_yr_multidiscipline</code>: Certificate of less than one academic year in Multi/Interdisciplinary Studies.</li>
+<li><code>program_certificate_lt_1_yr_parks_recreation_fitness</code>: Certificate of less than one academic year in Parks, Recreation, Leisure, And Fitness Studies.</li>
+<li><code>program_certificate_lt_1_yr_personal_culinary</code>: Certificate of less than one academic year in Personal And Culinary Services.</li>
+<li><code>program_certificate_lt_1_yr_philosophy_religious</code>: Certificate of less than one academic year in Philosophy And Religious Studies.</li>
+<li><code>program_certificate_lt_1_yr_physical_science</code>: Certificate of less than one academic year in Physical Sciences.</li>
+<li><code>program_certificate_lt_1_yr_precision_production</code>: Certificate of less than one academic year in Precision Production.</li>
+<li><code>program_certificate_lt_1_yr_psychology</code>: Certificate of less than one academic year in Psychology.</li>
+<li><code>program_certificate_lt_1_yr_public_administration_social_service</code>: Certificate of less than one academic year in Public Administration And Social Service Professions.</li>
+<li><code>program_certificate_lt_1_yr_resources</code>: Certificate of less than one academic year in Natural Resources And Conservation.</li>
+<li><code>program_certificate_lt_1_yr_science_technology</code>: Certificate of less than one academic year in Science Technologies/Technicians.</li>
+<li><code>program_certificate_lt_1_yr_security_law_enforcement</code>: Certificate of less than one academic year in Homeland Security, Law Enforcement, Firefighting And Related Protective Services.</li>
+<li><code>program_certificate_lt_1_yr_social_science</code>: Certificate of less than one academic year in Social Sciences.</li>
+<li><code>program_certificate_lt_1_yr_theology_religious_vocation</code>: Certificate of less than one academic year in Theology And Religious Vocations.</li>
+<li><code>program_certificate_lt_1_yr_transportation</code>: Certificate of less than one academic year in Transportation And Materials Moving.</li>
+<li><code>program_certificate_lt_1_yr_visual_performing</code>: Certificate of less than one academic year in Visual And Performing Arts.</li>
+<li><code>program_certificate_lt_2_yr_agriculture</code>: Certificate of at least one but less than two academic years in Agriculture, Agriculture Operations, And Related Sciences.</li>
+<li><code>program_certificate_lt_2_yr_architecture</code>: Certificate of at least one but less than two academic years in Architecture And Related Services.</li>
+<li><code>program_certificate_lt_2_yr_biological</code>: Certificate of at least one but less than two academic years in Biological And Biomedical Sciences.</li>
+<li><code>program_certificate_lt_2_yr_business_marketing</code>: Certificate of at least one but less than two academic years in Business, Management, Marketing, And Related Support Services.</li>
+<li><code>program_certificate_lt_2_yr_communication</code>: Certificate of at least one but less than two academic years in Communication, Journalism, And Related Programs.</li>
+<li><code>program_certificate_lt_2_yr_communications_technology</code>: Certificate of at least one but less than two academic years in Communications Technologies/Technicians And Support Services.</li>
+<li><code>program_certificate_lt_2_yr_computer</code>: Certificate of at least one but less than two academic years in Computer And Information Sciences And Support Services.</li>
+<li><code>program_certificate_lt_2_yr_construction</code>: Certificate of at least one but less than two academic years in Construction Trades.</li>
+<li><code>program_certificate_lt_2_yr_education</code>: Certificate of at least one but less than two academic years in Education.</li>
+<li><code>program_certificate_lt_2_yr_engineering</code>: Certificate of at least one but less than two academic years in Engineering.</li>
+<li><code>program_certificate_lt_2_yr_engineering_technology</code>: Certificate of at least one but less than two academic years in Engineering Technologies And Engineering-Related Fields.</li>
+<li><code>program_certificate_lt_2_yr_english</code>: Certificate of at least one but less than two academic years in English Language And Literature/Letters.</li>
+<li><code>program_certificate_lt_2_yr_ethnic_cultural_gender</code>: Certificate of at least one but less than two academic years in Area, Ethnic, Cultural, Gender, And Group Studies.</li>
+<li><code>program_certificate_lt_2_yr_family_consumer_science</code>: Certificate of at least one but less than two academic years in Family And Consumer Sciences/Human Sciences.</li>
+<li><code>program_certificate_lt_2_yr_health</code>: Certificate of at least one but less than two academic years in Health Professions And Related Programs.</li>
+<li><code>program_certificate_lt_2_yr_history</code>: Certificate of at least one but less than two academic years in History.</li>
+<li><code>program_certificate_lt_2_yr_humanities</code>: Certificate of at least one but less than two academic years in Liberal Arts And Sciences, General Studies And Humanities.</li>
+<li><code>program_certificate_lt_2_yr_language</code>: Certificate of at least one but less than two academic years in Foreign Languages, Literatures, And Linguistics.</li>
+<li><code>program_certificate_lt_2_yr_legal</code>: Certificate of at least one but less than two academic years in Legal Professions And Studies.</li>
+<li><code>program_certificate_lt_2_yr_library</code>: Certificate of at least one but less than two academic years in Library Science.</li>
+<li><code>program_certificate_lt_2_yr_mathematics</code>: Certificate of at least one but less than two academic years in Mathematics And Statistics.</li>
+<li><code>program_certificate_lt_2_yr_mechanic_repair_technology</code>: Certificate of at least one but less than two academic years in Mechanic And Repair Technologies/Technicians.</li>
+<li><code>program_certificate_lt_2_yr_military</code>: Certificate of at least one but less than two academic years in Military Technologies And Applied Sciences.</li>
+<li><code>program_certificate_lt_2_yr_multidiscipline</code>: Certificate of at least one but less than two academic years in Multi/Interdisciplinary Studies.</li>
+<li><code>program_certificate_lt_2_yr_parks_recreation_fitness</code>: Certificate of at least one but less than two academic years in Parks, Recreation, Leisure, And Fitness Studies.</li>
+<li><code>program_certificate_lt_2_yr_personal_culinary</code>: Certificate of at least one but less than two academic years in Personal And Culinary Services.</li>
+<li><code>program_certificate_lt_2_yr_philosophy_religious</code>: Certificate of at least one but less than two academic years in Philosophy And Religious Studies.</li>
+<li><code>program_certificate_lt_2_yr_physical_science</code>: Certificate of at least one but less than two academic years in Physical Sciences.</li>
+<li><code>program_certificate_lt_2_yr_precision_production</code>: Certificate of at least one but less than two academic years in Precision Production.</li>
+<li><code>program_certificate_lt_2_yr_psychology</code>: Certificate of at least one but less than two academic years in Psychology.</li>
+<li><code>program_certificate_lt_2_yr_public_administration_social_service</code>: Certificate of at least one but less than two academic years in Public Administration And Social Service Professions.</li>
+<li><code>program_certificate_lt_2_yr_resources</code>: Certificate of at least one but less than two academic years in Natural Resources And Conservation.</li>
+<li><code>program_certificate_lt_2_yr_science_technology</code>: Certificate of at least one but less than two academic years in Science Technologies/Technicians.</li>
+<li><code>program_certificate_lt_2_yr_security_law_enforcement</code>: Certificate of at least one but less than two academic years in Homeland Security, Law Enforcement, Firefighting And Related Protective Services.</li>
+<li><code>program_certificate_lt_2_yr_social_science</code>: Certificate of at least one but less than two academic years in Social Sciences.</li>
+<li><code>program_certificate_lt_2_yr_theology_religious_vocation</code>: Certificate of at least one but less than two academic years in Theology And Religious Vocations.</li>
+<li><code>program_certificate_lt_2_yr_transportation</code>: Certificate of at least one but less than two academic years in Transportation And Materials Moving.</li>
+<li><code>program_certificate_lt_2_yr_visual_performing</code>: Certificate of at least one but less than two academic years in Visual And Performing Arts.</li>
+<li><code>program_certificate_lt_4_yr_agriculture</code>: Awards of at least two but less than four academic years in Agriculture, Agriculture Operations, And Related Sciences.</li>
+<li><code>program_certificate_lt_4_yr_architecture</code>: Award of more than two but less than four academic years in Architecture And Related Services.</li>
+<li><code>program_certificate_lt_4_yr_biological</code>: Award of more than two but less than four academic years in Biological And Biomedical Sciences.</li>
+<li><code>program_certificate_lt_4_yr_business_marketing</code>: Award of more than two but less than four academic years in Business, Management, Marketing, And Related Support Services.</li>
+<li><code>program_certificate_lt_4_yr_communication</code>: Award of more than two but less than four academic years in Communication, Journalism, And Related Programs.</li>
+<li><code>program_certificate_lt_4_yr_communications_technology</code>: Award of more than two but less than four academic years in Communications Technologies/Technicians And Support Services.</li>
+<li><code>program_certificate_lt_4_yr_computer</code>: Award of more than two but less than four academic years in Computer And Information Sciences And Support Services.</li>
+<li><code>program_certificate_lt_4_yr_construction</code>: Award of more than two but less than four academic years in Construction Trades.</li>
+<li><code>program_certificate_lt_4_yr_education</code>: Award of more than two but less than four academic years in Education.</li>
+<li><code>program_certificate_lt_4_yr_engineering</code>: Award of more than two but less than four academic years in Engineering.</li>
+<li><code>program_certificate_lt_4_yr_engineering_technology</code>: Award of more than two but less than four academic years in Engineering Technologies And Engineering-Related Fields.</li>
+<li><code>program_certificate_lt_4_yr_english</code>: Award of more than two but less than four academic years in English Language And Literature/Letters.</li>
+<li><code>program_certificate_lt_4_yr_ethnic_cultural_gender</code>: Award of more than two but less than four academic years in Area, Ethnic, Cultural, Gender, And Group Studies.</li>
+<li><code>program_certificate_lt_4_yr_family_consumer_science</code>: Award of more than two but less than four academic years in Family And Consumer Sciences/Human Sciences.</li>
+<li><code>program_certificate_lt_4_yr_health</code>: Award of more than two but less than four academic years in Health Professions And Related Programs.</li>
+<li><code>program_certificate_lt_4_yr_history</code>: Award of more than two but less than four academic years in History.</li>
+<li><code>program_certificate_lt_4_yr_humanities</code>: Award of more than two but less than four academic years in Liberal Arts And Sciences, General Studies And Humanities.</li>
+<li><code>program_certificate_lt_4_yr_language</code>: Award of more than two but less than four academic years in Foreign Languages, Literatures, And Linguistics.</li>
+<li><code>program_certificate_lt_4_yr_legal</code>: Award of more than two but less than four academic years in Legal Professions And Studies.</li>
+<li><code>program_certificate_lt_4_yr_library</code>: Award of more than two but less than four academic years in Library Science.</li>
+<li><code>program_certificate_lt_4_yr_mathematics</code>: Award of more than two but less than four academic years in Mathematics And Statistics.</li>
+<li><code>program_certificate_lt_4_yr_mechanic_repair_technology</code>: Award of more than two but less than four academic years in Mechanic And Repair Technologies/Technicians.</li>
+<li><code>program_certificate_lt_4_yr_military</code>: Award of more than two but less than four academic years in Military Technologies And Applied Sciences.</li>
+<li><code>program_certificate_lt_4_yr_multidiscipline</code>: Award of more than two but less than four academic years in Multi/Interdisciplinary Studies.</li>
+<li><code>program_certificate_lt_4_yr_parks_recreation_fitness</code>: Award of more than two but less than four academic years in Parks, Recreation, Leisure, And Fitness Studies.</li>
+<li><code>program_certificate_lt_4_yr_personal_culinary</code>: Award of more than two but less than four academic years in Personal And Culinary Services.</li>
+<li><code>program_certificate_lt_4_yr_philosophy_religious</code>: Award of more than two but less than four academic years in Philosophy And Religious Studies.</li>
+<li><code>program_certificate_lt_4_yr_physical_science</code>: Award of more than two but less than four academic years in Physical Sciences.</li>
+<li><code>program_certificate_lt_4_yr_precision_production</code>: Award of more than two but less than four academic years in Precision Production.</li>
+<li><code>program_certificate_lt_4_yr_psychology</code>: Award of more than two but less than four academic years in Psychology.</li>
+<li><code>program_certificate_lt_4_yr_public_administration_social_service</code>: Award of more than two but less than four academic years in Public Administration And Social Service Professions.</li>
+<li><code>program_certificate_lt_4_yr_resources</code>: Award of at least two but less than four academic years in Natural Resources And Conservation.</li>
+<li><code>program_certificate_lt_4_yr_science_technology</code>: Award of more than two but less than four academic years in Science Technologies/Technicians.</li>
+<li><code>program_certificate_lt_4_yr_security_law_enforcement</code>: Award of more than two but less than four academic years in Homeland Security, Law Enforcement, Firefighting And Related Protective Services.</li>
+<li><code>program_certificate_lt_4_yr_social_science</code>: Award of more than two but less than four academic years in Social Sciences.</li>
+<li><code>program_certificate_lt_4_yr_theology_religious_vocation</code>: Award of more than two but less than four academic years in Theology And Religious Vocations.</li>
+<li><code>program_certificate_lt_4_yr_transportation</code>: Award of more than two but less than four academic years in Transportation And Materials Moving.</li>
+<li><code>program_certificate_lt_4_yr_visual_performing</code>: Award of more than two but less than four academic years in Visual And Performing Arts.</li>
+<li><code>program_percentage_agriculture</code>: Percentage of degrees awarded in Agriculture, Agriculture Operations, And Related Sciences.</li>
+<li><code>program_percentage_architecture</code>: Percentage of degrees awarded in Architecture And Related Services.</li>
+<li><code>program_percentage_biological</code>: Percentage of degrees awarded in Biological And Biomedical Sciences.</li>
+<li><code>program_percentage_business_marketing</code>: Percentage of degrees awarded in Business, Management, Marketing, And Related Support Services.</li>
+<li><code>program_percentage_communication</code>: Percentage of degrees awarded in Communication, Journalism, And Related Programs.</li>
+<li><code>program_percentage_communications_technology</code>: Percentage of degrees awarded in Communications Technologies/Technicians And Support Services.</li>
+<li><code>program_percentage_computer</code>: Percentage of degrees awarded in Computer And Information Sciences And Support Services.</li>
+<li><code>program_percentage_construction</code>: Percentage of degrees awarded in Construction Trades.</li>
+<li><code>program_percentage_education</code>: Percentage of degrees awarded in Education.</li>
+<li><code>program_percentage_engineering</code>: Percentage of degrees awarded in Engineering.</li>
+<li><code>program_percentage_engineering_technology</code>: Percentage of degrees awarded in Engineering Technologies And Engineering-Related Fields.</li>
+<li><code>program_percentage_english</code>: Percentage of degrees awarded in English Language And Literature/Letters.</li>
+<li><code>program_percentage_ethnic_cultural_gender</code>: Percentage of degrees awarded in Area, Ethnic, Cultural, Gender, And Group Studies.</li>
+<li><code>program_percentage_family_consumer_science</code>: Percentage of degrees awarded in Family And Consumer Sciences/Human Sciences.</li>
+<li><code>program_percentage_health</code>: Percentage of degrees awarded in Health Professions And Related Programs.</li>
+<li><code>program_percentage_history</code>: Percentage of degrees awarded in History.</li>
+<li><code>program_percentage_humanities</code>: Percentage of degrees awarded in Liberal Arts And Sciences, General Studies And Humanities.</li>
+<li><code>program_percentage_language</code>: Percentage of degrees awarded in Foreign Languages, Literatures, And Linguistics.</li>
+<li><code>program_percentage_legal</code>: Percentage of degrees awarded in Legal Professions And Studies.</li>
+<li><code>program_percentage_library</code>: Percentage of degrees awarded in Library Science.</li>
+<li><code>program_percentage_mathematics</code>: Percentage of degrees awarded in Mathematics And Statistics.</li>
+<li><code>program_percentage_mechanic_repair_technology</code>: Percentage of degrees awarded in Mechanic And Repair Technologies/Technicians.</li>
+<li><code>program_percentage_military</code>: Percentage of degrees awarded in Military Technologies And Applied Sciences.</li>
+<li><code>program_percentage_multidiscipline</code>: Percentage of degrees awarded in Multi/Interdisciplinary Studies.</li>
+<li><code>program_percentage_parks_recreation_fitness</code>: Percentage of degrees awarded in Parks, Recreation, Leisure, And Fitness Studies.</li>
+<li><code>program_percentage_personal_culinary</code>: Percentage of degrees awarded in Personal And Culinary Services.</li>
+<li><code>program_percentage_philosophy_religious</code>: Percentage of degrees awarded in Philosophy And Religious Studies.</li>
+<li><code>program_percentage_physical_science</code>: Percentage of degrees awarded in Physical Sciences.</li>
+<li><code>program_percentage_precision_production</code>: Percentage of degrees awarded in Precision Production.</li>
+<li><code>program_percentage_psychology</code>: Percentage of degrees awarded in Psychology.</li>
+<li><code>program_percentage_public_administration_social_service</code>: Percentage of degrees awarded in Public Administration And Social Service Professions.</li>
+<li><code>program_percentage_resources</code>: Percentage of degrees awarded in Natural Resources And Conservation.</li>
+<li><code>program_percentage_science_technology</code>: Percentage of degrees awarded in Science Technologies/Technicians.</li>
+<li><code>program_percentage_security_law_enforcement</code>: Percentage of degrees awarded in Homeland Security, Law Enforcement, Firefighting And Related Protective Services.</li>
+<li><code>program_percentage_social_science</code>: Percentage of degrees awarded in Social Sciences.</li>
+<li><code>program_percentage_theology_religious_vocation</code>: Percentage of degrees awarded in Theology And Religious Vocations.</li>
+<li><code>program_percentage_transportation</code>: Percentage of degrees awarded in Transportation And Materials Moving.</li>
+<li><code>program_percentage_visual_performing</code>: Percentage of degrees awarded in Visual And Performing Arts.</li>
+</ul></li>
+<li><p><strong><code>admissions</code></strong></p>
+<ul class="incremental">
+<li><code>act_scores_25th_percentile_cumulative</code>: 25th percentile of the ACT cumulative score</li>
+<li><code>act_scores_25th_percentile_english</code>: 25th percentile of the ACT English score</li>
+<li><code>act_scores_25th_percentile_math</code>: 25th percentile of the ACT math score</li>
+<li><code>act_scores_25th_percentile_writing</code>: 25th percentile of the ACT writing score</li>
+<li><code>act_scores_75th_percentile_cumulative</code>: 75th percentile of the ACT cumulative score</li>
+<li><code>act_scores_75th_percentile_english</code>: 75th percentile of the ACT English score</li>
+<li><code>act_scores_75th_percentile_math</code>: 75th percentile of the ACT math score</li>
+<li><code>act_scores_75th_percentile_writing</code>: 75th percentile of the ACT writing score</li>
+<li><code>act_scores_midpoint_cumulative</code>: Midpoint of the ACT cumulative score</li>
+<li><code>act_scores_midpoint_english</code>: Midpoint of the ACT English score</li>
+<li><code>act_scores_midpoint_math</code>: Midpoint of the ACT math score</li>
+<li><code>act_scores_midpoint_writing</code>: Midpoint of the ACT writing score</li>
+<li><code>admission_rate_by_ope_id</code>: Admission rate for all campuses rolled up to the 6-digit OPE ID</li>
+<li><code>admission_rate_overall</code>: Admission rate</li>
+<li><code>sat_scores_25th_percentile_critical_reading</code>: 25th percentile of SAT scores at the institution (critical reading)</li>
+<li><code>sat_scores_25th_percentile_math</code>: 25th percentile of SAT scores at the institution (math)</li>
+<li><code>sat_scores_25th_percentile_writing</code>: 25th percentile of SAT scores at the institution (writing)</li>
+<li><code>sat_scores_75th_percentile_critical_reading</code>: 75th percentile of SAT scores at the institution (critical reading)</li>
+<li><code>sat_scores_75th_percentile_math</code>: 75th percentile of SAT scores at the institution (math)</li>
+<li><code>sat_scores_75th_percentile_writing</code>: 75th percentile of SAT scores at the institution (writing)</li>
+<li><code>sat_scores_average_by_ope_id</code>: Average SAT equivalent score of students admitted for all campuses rolled up to the 6-digit OPE ID</li>
+<li><code>sat_scores_average_overall</code>: Average SAT equivalent score of students admitted</li>
+<li><code>sat_scores_midpoint_critical_reading</code>: Midpoint of SAT scores at the institution (critical reading)</li>
+<li><code>sat_scores_midpoint_math</code>: Midpoint of SAT scores at the institution (math)</li>
+<li><code>sat_scores_midpoint_writing</code>: Midpoint of SAT scores at the institution (writing)</li>
+</ul></li>
+<li><p><strong><code>completion</code></strong></p>
+<ul class="incremental">
+<li><code>completion_cohort_4yr_100nt</code>: Adjusted cohort count for completion rate at four-year institutions (denominator of 100% completion rate)</li>
+<li><code>completion_cohort_less_than_4yr_100nt</code>: Adjusted cohort count for completion rate at less-than-four-year institutions (denominator of 100% completion rate)</li>
+<li><code>completion_rate_4yr_100nt</code>: Completion rate for first-time, full-time students at four-year institutions (100% of expected time to completion/6 years)</li>
+<li><code>completion_rate_less_than_4yr_100nt</code>: Completion rate for first-time, full-time students at less-than-four-year institutions (100% of expected time to completion)</li>
+<li><code>transfer_rate_4yr_full_time</code>: Transfer rate for first-time, full-time students at four-year institutions (within 150% of expected time to completion/6 years)</li>
+<li><code>transfer_rate_cohort_4yr_full_time</code>: Adjusted cohort count for transfer rate at less-than-four-year institutions (denominator of 150% transfer rate)</li>
+<li><code>transfer_rate_cohort_less_than_4yr_full_time</code>: Adjusted cohort count for transfer rate at four-year institutions (denominator of 150% transfer rate)</li>
+<li><code>transfer_rate_less_than_4yr_full_time</code>: Transfer rate for first-time, full-time students at less-than-four-year institutions (150% of expected time to completion)</li>
+</ul></li>
+<li><p><strong><code>cost</code></strong></p>
+<ul class="incremental">
+<li><code>tuition_in_state</code>: In-state tuition and fees</li>
+<li><code>tuition_out_of_state</code>: Out-of-state tuition and fees</li>
+<li><code>tuition_program_year</code>: Tuition and fees for program-year institutions</li>
+</ul></li>
+<li><p><strong><code>year</code></strong></p>
+<ul class="incremental">
+<li><code>report_year</code>: A variable indicating what year the observation is from. (Possible Values: <code>year_a</code>, <code>year_f</code>, <code>year_z</code>, <code>year_w</code>)</li>
+</ul></li>
+<li><p><strong><code>school</code></strong></p>
+<ul class="incremental">
+<li><code>degrees_awarded_highest</code>: Highest degree awarded 0 Non-degree-granting 1 Certificate degree 2 Associate degree 3 Bachelor's degree 4 Graduate degree (Possible Values: <code>Associate degree</code>, <code>Graduate degree</code>, <code>Certificate degree</code>, <code>Bachelor's degree</code>, <code>Non-degree-granting</code>)</li>
+<li><code>degrees_awarded_predominant</code>: Predominant undergraduate degree awarded 0 Not classified 1 Predominantly certificate-degree granting 2 Predominantly associate's-degree granting 3 Predominantly bachelor's-degree granting 4 Entirely graduate-degree granting (Possible Values: <code>Predominantly certificate-degree granting</code>, <code>Predominantly bachelor's-degree granting</code>, <code>Predominantly associate's-degree granting</code>, <code>Not classified</code>, <code>Entirely graduate-degree granting</code>)</li>
+<li><code>degrees_awarded_predominant_recoded</code>: Predominant degree awarded (recoded 0s and 4s)</li>
+<li><code>faculty_salary</code>: Average faculty salary</li>
+<li><code>ft_faculty_rate</code>: Proportion of faculty that is full-time</li>
+<li><code>institutional_characteristics_level</code>: Level of institution (Possible Values: <code>2-year</code>, <code>4-year</code>, <code>Less-than-2-year</code>)</li>
+<li><code>instructional_expenditure_per_fte</code>: Instructional expenditures per full-time equivalent student</li>
+<li><code>main_campus</code>: Flag for main campus (Possible Values: <code>Main campus</code>, <code>Not main campus</code>)</li>
+<li><code>online_only</code>: Flag for distance-education-only education (Possible Values: <code>Not distance-education only</code>, <code>nan</code>, <code>Distance-education only</code>)</li>
+<li><code>ownership</code>: Control of institution (Possible Values: <code>Public</code>, <code>Private for-profit</code>, <code>Private nonprofit</code>)</li>
+<li><code>region_id</code>: Region (IPEDS) (Possible Values: <code>Plains (IA, KS, MN, MO, NE, ND, SD)</code>, <code>New England (CT, ME, MA, NH, RI, VT)</code>, <code>Southeast (AL, AR, FL, GA, KY, LA, MS, NC, SC, TN, VA, WV)</code>, <code>Mid East (DE, DC, MD, NJ, NY, PA)</code>, <code>Great Lakes (IL, IN, MI, OH, WI)</code>, <code>Far West (AK, CA, HI, NV, OR, WA)</code>, <code>Southwest (AZ, NM, OK, TX)</code>, <code>Rocky Mountains (CO, ID, MT, UT, WY)</code>, <code>Outlying Areas (AS, FM, GU, MH, MP, PR, PW, VI)</code>)</li>
+<li><code>state</code>: State postcode (Possible Values: <code>axc</code>, <code>fga</code>, <code>oly</code>, <code>dmg</code>, <code>hbt</code>, <code>jgn</code>, <code>kll</code>, <code>xve</code>, <code>dfy</code>, <code>oon</code>, <code>oli</code>, <code>iqy</code>, <code>qim</code>, <code>shi</code>, <code>ccg</code>, <code>dkf</code>, <code>ipu</code>, <code>tbs</code>, <code>luw</code>, <code>pxv</code>, <code>hww</code>, <code>lff</code>, <code>slp</code>, <code>wjh</code>, <code>idw</code>, <code>ezv</code>, <code>vvi</code>, <code>zdl</code>, <code>jsu</code>, <code>hks</code>, <code>bww</code>, <code>fxt</code>, <code>rxy</code>, <code>cfi</code>, <code>rse</code>, <code>kus</code>, <code>oub</code>, <code>uah</code>, <code>rya</code>, <code>eyi</code>, <code>wto</code>, <code>gkt</code>, <code>bkc</code>, <code>znt</code>, <code>slo</code>, <code>hqy</code>, <code>rgs</code>, <code>cmz</code>, <code>kdg</code>, <code>pdh</code>, <code>ahh</code>, <code>twr</code>, <code>xws</code>, <code>por</code>, <code>uuo</code>, <code>nhl</code>, <code>hmr</code>, <code>jfm</code>)</li>
+<li><code>tuition_revenue_per_fte</code>: Net tuition revenue per full-time equivalent student</li>
+</ul></li>
+<li><p><strong><code>student</code></strong></p>
+<ul class="incremental">
+<li><code>demographics_age_entry</code>: Average age of entry, via SSA data</li>
+<li><code>demographics_dependent</code>: Share of dependent students</li>
+<li><code>demographics_female_share</code>: Share of female students, via SSA data</li>
+<li><code>demographics_first_generation</code>: Share of first-generation students</li>
+<li><code>demographics_married</code>: Share of married students</li>
+<li><code>demographics_veteran</code>: Share of veteran students</li>
+<li><code>part_time_share</code>: Share of undergraduate, degree-/certificate-seeking students who are part-time</li>
+<li><code>retention_rate_four_year_full_time</code>: First-time, full-time student retention rate at four-year institutions</li>
+<li><code>retention_rate_four_year_part_time</code>: First-time, part-time student retention rate at four-year institutions</li>
+<li><code>retention_rate_lt_four_year_full_time</code>: First-time, full-time student retention rate at less-than-four-year institutions</li>
+<li><code>retention_rate_lt_four_year_part_time</code>: First-time, part-time student retention rate at less-than-four-year institutions</li>
+<li><code>share_25_older</code>: Percentage of undergraduates aged 25 and above</li>
+<li><code>share_first_time_full_time</code>: Share of undergraduate students who are first-time, full-time degree-/certificate-seeking undergraduate students</li>
+<li><code>share_firstgeneration</code>: Percentage first-generation students</li>
+<li><code>share_firstgeneration_parents_highschool</code>: Percent of students whose parents' highest educational level is high school</li>
+<li><code>share_firstgeneration_parents_middleschool</code>: Percent of students whose parents' highest educational level is middle school</li>
+<li><code>share_firstgeneration_parents_somecollege</code>: Percent of students whose parents' highest educational level was is some form of postsecondary education</li>
+<li><code>share_independent_students</code>: Percentage of students who are financially independent</li>
+<li><code>size</code>: Enrollment of undergraduate certificate/degree-seeking students</li>
+</ul></li>
+</ul>
+<p><a id="example-row"></a></p>
+<h3 id="example-row">Example Row</h3>
+<p>Here's an example of one of the rows in the dataset so that you can see the kinds of values you might expect in the dataset. Some are numeric, some are categorical, and there are often missing values.</p>
+<table style="width:100%;">
+<colgroup>
+<col width="83%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>academics__program_assoc_agriculture</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_architecture</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_biological</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_business_marketing</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_communication</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_communications_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_computer</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_construction</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_education</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_engineering</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_engineering_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_english</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_ethnic_cultural_gender</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_family_consumer_science</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_health</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_history</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_humanities</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_language</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_legal</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_library</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_mathematics</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_mechanic_repair_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_military</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_multidiscipline</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_parks_recreation_fitness</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_personal_culinary</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_philosophy_religious</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_physical_science</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_precision_production</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_psychology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_public_administration_social_service</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_resources</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_science_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_security_law_enforcement</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_social_science</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_theology_religious_vocation</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_assoc_transportation</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_assoc_visual_performing</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_agriculture</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_architecture</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_biological</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_business_marketing</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_communication</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_communications_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_computer</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_construction</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_education</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_engineering</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_engineering_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_english</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_ethnic_cultural_gender</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_family_consumer_science</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_health</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_history</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_humanities</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_language</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_legal</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_library</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_mathematics</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_mechanic_repair_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_military</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_multidiscipline</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_parks_recreation_fitness</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_personal_culinary</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_philosophy_religious</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_physical_science</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_precision_production</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_psychology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_public_administration_social_service</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_resources</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_science_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_security_law_enforcement</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_social_science</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_theology_religious_vocation</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_bachelors_transportation</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_bachelors_visual_performing</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_agriculture</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_architecture</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_biological</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_business_marketing</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_communication</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_communications_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_computer</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_construction</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_education</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_engineering</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_engineering_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_english</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_ethnic_cultural_gender</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_family_consumer_science</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_health</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_history</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_humanities</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_language</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_legal</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_library</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_mathematics</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_mechanic_repair_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_military</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_multidiscipline</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_parks_recreation_fitness</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_personal_culinary</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_philosophy_religious</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_physical_science</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_precision_production</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_psychology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_public_administration_social_service</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_resources</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_science_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_security_law_enforcement</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_social_science</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_theology_religious_vocation</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_1_yr_transportation</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_1_yr_visual_performing</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_agriculture</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_architecture</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_biological</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_business_marketing</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_communication</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_communications_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_computer</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_construction</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_education</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_engineering</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_engineering_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_english</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_ethnic_cultural_gender</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_family_consumer_science</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_health</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_history</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_humanities</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_language</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_legal</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_library</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_mathematics</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_mechanic_repair_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_military</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_multidiscipline</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_parks_recreation_fitness</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_personal_culinary</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_philosophy_religious</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_physical_science</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_precision_production</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_psychology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_public_administration_social_service</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_resources</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_science_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_security_law_enforcement</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_social_science</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_theology_religious_vocation</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_2_yr_transportation</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_2_yr_visual_performing</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_agriculture</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_architecture</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_biological</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_business_marketing</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_communication</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_communications_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_computer</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_construction</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_education</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_engineering</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_engineering_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_english</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_ethnic_cultural_gender</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_family_consumer_science</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_health</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_history</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_humanities</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_language</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_legal</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_library</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_mathematics</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_mechanic_repair_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_military</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_multidiscipline</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_parks_recreation_fitness</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_personal_culinary</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_philosophy_religious</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_physical_science</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_precision_production</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_psychology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_public_administration_social_service</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_resources</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_science_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_security_law_enforcement</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_social_science</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_theology_religious_vocation</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_certificate_lt_4_yr_transportation</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_certificate_lt_4_yr_visual_performing</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_agriculture</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_architecture</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_biological</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_business_marketing</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_communication</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_communications_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_computer</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_construction</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_education</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_engineering</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_engineering_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_english</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_ethnic_cultural_gender</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_family_consumer_science</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_health</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_history</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_humanities</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_language</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_legal</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_library</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_mathematics</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_mechanic_repair_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_military</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_multidiscipline</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_parks_recreation_fitness</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_personal_culinary</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_philosophy_religious</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_physical_science</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_precision_production</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_psychology</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_public_administration_social_service</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_resources</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_science_technology</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_security_law_enforcement</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_social_science</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_theology_religious_vocation</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>academics__program_percentage_transportation</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>academics__program_percentage_visual_performing</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>admissions__act_scores_25th_percentile_cumulative</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>admissions__act_scores_25th_percentile_english</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>admissions__act_scores_25th_percentile_math</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>admissions__act_scores_25th_percentile_writing</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>admissions__act_scores_75th_percentile_cumulative</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>admissions__act_scores_75th_percentile_english</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>admissions__act_scores_75th_percentile_math</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>admissions__act_scores_75th_percentile_writing</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>admissions__act_scores_midpoint_cumulative</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>admissions__act_scores_midpoint_english</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>admissions__act_scores_midpoint_math</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>admissions__act_scores_midpoint_writing</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>admissions__admission_rate_by_ope_id</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>admissions__admission_rate_overall</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>admissions__sat_scores_25th_percentile_critical_reading</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>admissions__sat_scores_25th_percentile_math</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>admissions__sat_scores_25th_percentile_writing</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>admissions__sat_scores_75th_percentile_critical_reading</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>admissions__sat_scores_75th_percentile_math</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>admissions__sat_scores_75th_percentile_writing</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>admissions__sat_scores_average_by_ope_id</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>admissions__sat_scores_average_overall</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>admissions__sat_scores_midpoint_critical_reading</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>admissions__sat_scores_midpoint_math</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>admissions__sat_scores_midpoint_writing</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>completion__completion_cohort_4yr_100nt</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>completion__completion_cohort_less_than_4yr_100nt</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>completion__completion_rate_4yr_100nt</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>completion__completion_rate_less_than_4yr_100nt</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>completion__transfer_rate_4yr_full_time</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>completion__transfer_rate_cohort_4yr_full_time</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>completion__transfer_rate_cohort_less_than_4yr_full_time</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>completion__transfer_rate_less_than_4yr_full_time</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>cost__tuition_in_state</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>cost__tuition_out_of_state</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>cost__tuition_program_year</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>report_year</td>
+<td>year_a</td>
+</tr>
+<tr class="even">
+<td>school__degrees_awarded_highest</td>
+<td>Certificate degree</td>
+</tr>
+<tr class="odd">
+<td>school__degrees_awarded_predominant</td>
+<td>Predominantly certificate-degree granting</td>
+</tr>
+<tr class="even">
+<td>school__degrees_awarded_predominant_recoded</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>school__faculty_salary</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>school__ft_faculty_rate</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>school__institutional_characteristics_level</td>
+<td>2-year</td>
+</tr>
+<tr class="even">
+<td>school__instructional_expenditure_per_fte</td>
+<td>8294.0</td>
+</tr>
+<tr class="odd">
+<td>school__main_campus</td>
+<td>Not main campus</td>
+</tr>
+<tr class="even">
+<td>school__online_only</td>
+<td>Not distance-education only</td>
+</tr>
+<tr class="odd">
+<td>school__ownership</td>
+<td>Private nonprofit</td>
+</tr>
+<tr class="even">
+<td>school__region_id</td>
+<td>Southeast (AL, AR, FL, GA, KY, LA, MS, NC, SC, TN, VA, WV)</td>
+</tr>
+<tr class="odd">
+<td>school__state</td>
+<td>slp</td>
+</tr>
+<tr class="even">
+<td>school__tuition_revenue_per_fte</td>
+<td>7736.0</td>
+</tr>
+<tr class="odd">
+<td>student__demographics_age_entry</td>
+<td>26.975308641999998</td>
+</tr>
+<tr class="even">
+<td>student__demographics_dependent</td>
+<td>0.2716049383</td>
+</tr>
+<tr class="odd">
+<td>student__demographics_female_share</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>student__demographics_first_generation</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>student__demographics_married</td>
+<td>0.2469135802</td>
+</tr>
+<tr class="even">
+<td>student__demographics_veteran</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>student__part_time_share</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td>student__retention_rate_four_year_full_time</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>student__retention_rate_four_year_part_time</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>student__retention_rate_lt_four_year_full_time</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>student__retention_rate_lt_four_year_part_time</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>student__share_25_older</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>student__share_first_time_full_time</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>student__share_firstgeneration</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>student__share_firstgeneration_parents_highschool</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>student__share_firstgeneration_parents_middleschool</td>
+<td>nan</td>
+</tr>
+<tr class="odd">
+<td>student__share_firstgeneration_parents_somecollege</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td>student__share_independent_students</td>
+<td>0.7283950617</td>
+</tr>
+<tr class="odd">
+<td>student__size</td>
+<td>56.0</td>
+</tr>
+</tbody>
+</table>
